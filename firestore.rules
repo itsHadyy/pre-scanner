@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /qrCodes/{id} {
+      allow read: if true;
+
+      // Allow creating new QR codes from the public app,
+      // but only with a safe initial shape (one use, active).
+      allow create: if request.auth == null
+        && request.resource.data.uses == 0
+        && request.resource.data.maxUses == 1
+        && request.resource.data.status == 'active'
+        && request.resource.data.token is string
+        && request.resource.data.unitNumber is string;
+
+      allow update: if request.auth == null
+        && request.resource.data.uses == resource.data.uses + 1
+        && request.resource.data.uses <= resource.data.maxUses
+        && request.resource.data.token == resource.data.token
+        && request.resource.data.unitNumber == resource.data.unitNumber
+        && request.resource.data.maxUses == resource.data.maxUses;
+
+      allow delete: if false;
+    }
+
+    match /units/{id} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /scanLogs/{id} {
+      allow create: if true;
+      allow read: if false;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+  }
+}
+

@@ -1,0 +1,221 @@
+/* ── Launch screen ─ full-bleed mobile-first ───────── */
+
+.launch-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #1e1a1b, #0f0d0e 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px env(safe-area-inset-bottom, 32px);
+  overflow: hidden;
+  z-index: 999;
+}
+
+/* ── Ambient glow orbs ─────────────────────────────── */
+
+.launch-orbit {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #af1e23, transparent 65%);
+  opacity: 0.18;
+  filter: blur(50px);
+  animation: launch-orbit 20s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.launch-orbit-second {
+  width: 260px;
+  height: 260px;
+  right: -80px;
+  bottom: -80px;
+  animation-duration: 24s;
+  animation-delay: -6s;
+}
+
+/* ── Content area ──────────────────────────────────── */
+
+.launch-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  animation: launch-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Logo ──────────────────────────────────────────── */
+
+.launch-logo {
+  width: 160px;
+  max-width: 50%;
+  display: block;
+  margin-bottom: 32px;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.5));
+  animation: logo-float 6s ease-in-out infinite;
+}
+
+/* ── Typography ────────────────────────────────────── */
+
+.launch-title {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.launch-subtitle {
+  margin: 0 0 36px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ── Steps ─────────────────────────────────────────── */
+
+.launch-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.launch-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.7);
+  animation: step-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.launch-step:nth-child(1) { animation-delay: 0.3s; }
+.launch-step:nth-child(2) { animation-delay: 0.45s; }
+.launch-step:nth-child(3) { animation-delay: 0.6s; }
+
+.launch-step-number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(175, 30, 35, 0.2);
+  border: 1px solid rgba(175, 30, 35, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ff6b6f;
+}
+
+/* ── Progress bar ──────────────────────────────────── */
+
+.launch-progress-wrapper {
+  width: 100%;
+  animation: launch-fade-in 0.6s 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.launch-progress-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 10px;
+}
+
+.launch-progress {
+  position: relative;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.launch-progress-bar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #af1e23, #ff6b6f);
+  border-radius: 999px;
+  transform-origin: left;
+  animation: launch-progress 10s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── Desktop scale-up ──────────────────────────────── */
+
+@media (min-width: 640px) {
+  .launch-screen {
+    padding: 64px 32px 48px;
+  }
+
+  .launch-orbit {
+    width: 500px;
+    height: 500px;
+  }
+
+  .launch-orbit-second {
+    width: 400px;
+    height: 400px;
+  }
+
+  .launch-content {
+    max-width: 480px;
+  }
+
+  .launch-logo {
+    width: 200px;
+    margin-bottom: 40px;
+  }
+
+  .launch-title {
+    font-size: 1.8rem;
+  }
+
+  .launch-subtitle {
+    font-size: 1rem;
+  }
+
+  .launch-step {
+    font-size: 0.92rem;
+  }
+}
+
+/* ── Keyframes ─────────────────────────────────────── */
+
+@keyframes launch-orbit {
+  0% { transform: translate3d(-30px, 0, 0) scale(1); }
+  50% { transform: translate3d(15px, -15px, 0) scale(1.04); }
+  100% { transform: translate3d(20px, 20px, 0) scale(0.97); }
+}
+
+@keyframes launch-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes step-slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes launch-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
