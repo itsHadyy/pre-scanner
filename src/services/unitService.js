@@ -21,30 +21,50 @@ export async function searchUnitsByPrefix(prefix) {
   const trimmed = raw.trim().replace(/\s*-\s*/g, '-');
   if (!trimmed || trimmed.length < 1) return [];
 
+  const upper = trimmed.toUpperCase();
+  const lower = trimmed.toLowerCase();
+
   const colRef = collection(db, UNITS_COLLECTION);
 
-  // We run up to three prefix queries:
-  // - by buildingUnit (e.g. "66*-7")
-  // - by building (e.g. "66*")
-  // - by unitNumber (e.g. "7")
+  // We run prefix queries with both upper and lower variants to
+  // cope with mixed-case data in Firestore.
   const queries = [
+    // by buildingUnit
     query(
       colRef,
       orderBy('buildingUnit'),
-      startAt(trimmed),
-      endBefore(`${trimmed}\uf8ff`),
+      startAt(upper),
+      endBefore(`${upper}\uf8ff`),
     ),
     query(
       colRef,
       orderBy('building'),
-      startAt(trimmed),
-      endBefore(`${trimmed}\uf8ff`),
+      startAt(upper),
+      endBefore(`${upper}\uf8ff`),
     ),
     query(
       colRef,
       orderBy('unitNumber'),
-      startAt(trimmed),
-      endBefore(`${trimmed}\uf8ff`),
+      startAt(upper),
+      endBefore(`${upper}\uf8ff`),
+    ),
+    query(
+      colRef,
+      orderBy('buildingUnit'),
+      startAt(lower),
+      endBefore(`${lower}\uf8ff`),
+    ),
+    query(
+      colRef,
+      orderBy('building'),
+      startAt(lower),
+      endBefore(`${lower}\uf8ff`),
+    ),
+    query(
+      colRef,
+      orderBy('unitNumber'),
+      startAt(lower),
+      endBefore(`${lower}\uf8ff`),
     ),
   ];
 

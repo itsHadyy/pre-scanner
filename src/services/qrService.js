@@ -117,8 +117,9 @@ export async function getQrCodeStatus(token) {
   const data = docSnap.data() || {};
 
   let unit = null;
-  if (data.unitNumber) {
-    const unitRef = doc(db, 'units', data.unitNumber);
+  const unitDocId = data.buildingUnit || data.unitNumber;
+  if (unitDocId) {
+    const unitRef = doc(db, 'units', unitDocId);
     const unitSnap = await getDoc(unitRef);
     if (unitSnap.exists()) {
       unit = { id: unitSnap.id, ...unitSnap.data() };
