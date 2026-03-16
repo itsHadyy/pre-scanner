@@ -88,6 +88,9 @@ export async function validateAndClaimUnit(unitNumber) {
   const data = snapshot.data();
 
   const realUnitNumber = data.unitNumber || trimmed;
+  const building = data.building || null;
+  const buildingUnit = data.buildingUnit || trimmed;
+  const floor = data.floor || null;
 
   if (data.claimed) {
     // Already claimed – just return existing QR codes
@@ -101,6 +104,9 @@ export async function validateAndClaimUnit(unitNumber) {
   const qrDoc = await addDoc(collection(db, QR_CODES_COLLECTION), {
     token,
     unitNumber: realUnitNumber,
+    building,
+    buildingUnit,
+    floor,
     uses: 0,
     maxUses: 4,
     status: 'active',
@@ -112,6 +118,9 @@ export async function validateAndClaimUnit(unitNumber) {
       id: qrDoc.id,
       token,
       unitNumber: realUnitNumber,
+      building,
+      buildingUnit,
+      floor,
       uses: 0,
       maxUses: 4,
       status: 'active',

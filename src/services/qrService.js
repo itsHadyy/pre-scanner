@@ -14,6 +14,7 @@ import { db } from './firebase';
 
 const QR_CODES_COLLECTION = 'qrCodes';
 const SCAN_LOGS_COLLECTION = 'scanLogs';
+const REDEEMED_COLLECTION = 'redeemedDrinks';
 
 export function subscribeToUnitQrCodes(unitNumber, callback) {
   const colRef = collection(db, QR_CODES_COLLECTION);
@@ -43,36 +44,62 @@ export async function redeemQrCode(token, deviceId = 'unknown-device') {
   let resultMessage = '';
   let ok = false;
 
+  // First, atomically update the uses counter
   await runTransaction(db, async (transaction) => {
     const freshSnap = await transaction.get(qrRef);
     const data = freshSnap.data();
 
     if (data.uses < data.maxUses) {
       transaction.update(qrRef, { uses: data.uses + 1 });
-
-      await addDoc(collection(db, SCAN_LOGS_COLLECTION), {
-        token,
-        unitNumber: data.unitNumber,
-        scannedAt: serverTimestamp(),
-        deviceId,
-        result: 'VALID',
-      });
-
       ok = true;
       resultMessage = 'VALID - Drink Redeemed';
     } else {
-      await addDoc(collection(db, SCAN_LOGS_COLLECTION), {
-        token,
-        unitNumber: data.unitNumber,
-        scannedAt: serverTimestamp(),
-        deviceId,
-        result: 'INVALID_ALREADY_USED',
-      });
-
       ok = false;
       resultMessage = 'INVALID - QR already used';
     }
   });
+
+  const freshSnap = await getDoc(qrRef);
+  const data = freshSnap.data();
+
+  // Outside the transaction, write logs and redeemed entries (best-effort)
+  try {
+    await addDoc(collection(db, SCAN_LOGS_COLLECTION), {
+      token,
+      unitNumber: data.unitNumber,
+      scannedAt: serverTimestamp(),
+      deviceId,
+      result: ok ? 'VALID' : 'INVALID_ALREADY_USED',
+    });
+
+    if (ok) {
+      let unitData = null;
+      try {
+        const unitRef = doc(db, 'units', data.unitNumber);
+        const unitSnap = await getDoc(unitRef);
+        if (unitSnap.exists()) {
+          unitData = unitSnap.data();
+        }
+      } catch (e) {
+        // ignore enrichment failures
+      }
+
+      await addDoc(collection(db, REDEEMED_COLLECTION), {
+        token,
+        unitNumber: data.unitNumber,
+        building: unitData?.building || null,
+        buildingUnit: unitData?.buildingUnit || null,
+        floor: unitData?.floor || null,
+        redeemedAt: serverTimestamp(),
+        deviceId,
+        qrCodeId: qrRef.id,
+        useNumber: data.uses, // this is the updated uses
+        maxUses: data.maxUses,
+      });
+    }
+  } catch (e) {
+    // logging failures should not affect redemption result
+  }
 
   return { ok, message: resultMessage };
 }

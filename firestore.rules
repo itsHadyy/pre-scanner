@@ -34,6 +34,12 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /redeemedDrinks/{id} {
+      allow create: if true;
+      allow read: if false;
+      allow update, delete: if false;
+    }
+
     match /{document=**} {
       allow read: if false;
       allow write: if false;

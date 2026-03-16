@@ -16,11 +16,13 @@ function extractTokenFromText(text) {
 
 function QRScanner() {
   const scannerRef = useRef(null);
+  const processingRef = useRef(false); // locks scanning after one successful read until reset
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('idle'); // idle | success | error | scanning
   const [currentToken, setCurrentToken] = useState(null);
   const [usesInfo, setUsesInfo] = useState(null); // { uses, maxUses }
   const [unitInfo, setUnitInfo] = useState(null); // { building, floor, buildingUnit, ... }
+  const [redeeming, setRedeeming] = useState(false);
 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('qr-reader', {
@@ -33,6 +35,10 @@ function QRScanner() {
 
     scanner.render(
       async (decodedText) => {
+        if (processingRef.current) {
+          return;
+        }
+        processingRef.current = true;
         const token = extractTokenFromText(decodedText);
         setStatus('scanning');
         setMessage('Verifying QR code...');
@@ -63,7 +69,9 @@ function QRScanner() {
           setMessage('INVALID - QR already fully used');
         } else {
           setStatus('success');
-          setMessage('VALID - Ready to redeem. Tap Redeem when confirmed.');
+          setMessage(
+            `VALID - ${info.uses || 0} of ${info.maxUses || 0} drinks used. Tap Redeem when confirmed.`,
+          );
         }
       },
       () => {
@@ -78,29 +86,48 @@ function QRScanner() {
 
   const handleRedeem = async () => {
     if (!currentToken || !usesInfo) return;
+    if (redeeming) return;
+    setRedeeming(true);
     setStatus('scanning');
     setMessage('Redeeming drink...');
 
-    const deviceId = navigator.userAgent || 'unknown-device';
-    const result = await redeemQrCode(currentToken, deviceId);
+    try {
+      const deviceId = navigator.userAgent || 'unknown-device';
+      const result = await redeemQrCode(currentToken, deviceId);
 
-    setMessage(result.message);
-    setStatus(result.ok ? 'success' : 'error');
+      setMessage(result.message);
+      setStatus(result.ok ? 'success' : 'error');
 
-    if (result.ok) {
-      const updated = await getQrCodeStatus(currentToken);
-      if (updated) {
-        setUsesInfo({ uses: updated.uses || 0, maxUses: updated.maxUses || 0 });
-        setUnitInfo(
-          updated.unit || {
-            building: updated.building,
-            floor: updated.floor,
-            buildingUnit: updated.buildingUnit,
-            unitNumber: updated.unitNumber,
-          },
-        );
+      if (result.ok) {
+        const updated = await getQrCodeStatus(currentToken);
+        if (updated) {
+          setUsesInfo({ uses: updated.uses || 0, maxUses: updated.maxUses || 0 });
+          setUnitInfo(
+            updated.unit || {
+              building: updated.building,
+              floor: updated.floor,
+              buildingUnit: updated.buildingUnit,
+              unitNumber: updated.unitNumber,
+            },
+          );
+        }
       }
+    } catch (err) {
+      setStatus('error');
+      setMessage('Error redeeming drink. Please try again.');
+    } finally {
+      setRedeeming(false);
     }
+  };
+
+  const handleNextScan = () => {
+    // Allow the next QR read and reset UI state (but keep camera running)
+    processingRef.current = false;
+    setCurrentToken(null);
+    setUsesInfo(null);
+    setUnitInfo(null);
+    setStatus('scanning');
+    setMessage('Ready to scan next QR.');
   };
 
   return (
@@ -136,6 +163,7 @@ function QRScanner() {
           type="button"
           className="primary-button scanner-redeem-button"
           onClick={handleRedeem}
+          disabled={redeeming}
         >
           Redeem drink (
           {usesInfo.uses}
@@ -154,6 +182,15 @@ function QRScanner() {
           {' '}
           times.
         </p>
+      )}
+      {processingRef.current && (
+        <button
+          type="button"
+          className="primary-button scanner-next-button"
+          onClick={handleNextScan}
+        >
+          Scan next QR
+        </button>
       )}
     </div>
   );

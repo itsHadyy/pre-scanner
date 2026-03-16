@@ -109,6 +109,10 @@
   color: #231f20;
 }
 
+.scanner-next-button {
+  margin-top: 16px;
+}
+
 /* ── Tablet / Desktop ──────────────────────────────── */
 
 @media (min-width: 640px) {
