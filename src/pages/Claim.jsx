@@ -77,24 +77,30 @@ function Claim() {
     };
   }, [unitNumber, navigate]);
 
-  const redeemedCount = qrCodes.filter((c) => c.uses >= c.maxUses).length;
+  const primaryCode = qrCodes[0];
+  const redeemedCount = primaryCode ? Math.min(primaryCode.uses || 0, TOTAL_DRINKS) : 0;
 
   return (
     <div className="page page-claim">
-      <span className="floating-chip chip-1">Unit {unitNumber}</span>
-      <span className="floating-chip chip-2">
-        {redeemedCount}
-        {' '}
-        of
-        {' '}
-        {TOTAL_DRINKS}
-        {' '}
-        redeemed
-      </span>
       <div className="card claim-card">
+        <div className="claim-card-header">
+          <div className="claim-unit-pill">
+            Unit
+            {' '}
+            {unitNumber}
+          </div>
+          <div className="claim-count-pill">
+            {redeemedCount}
+            /
+            {TOTAL_DRINKS}
+            {' '}
+            drinks
+          </div>
+        </div>
+
         <h1 className="claim-title">Your Drink Vouchers</h1>
         <p className="claim-subtitle">
-          Show these QR codes to staff to redeem your free drinks.
+          Show this screen to staff to redeem your complimentary drinks.
         </p>
 
         <DrinkCounter redeemed={redeemedCount} total={TOTAL_DRINKS} />
@@ -107,16 +113,29 @@ function Claim() {
         )}
 
         <div className="qr-grid">
-          {qrCodes.slice(0, TOTAL_DRINKS).map((code, index) => (
+          {primaryCode && redeemedCount < TOTAL_DRINKS && (
             <QRCodeCard
-              key={code.id}
-              index={index}
-              token={code.token}
-              status={code.uses >= code.maxUses ? 'used' : 'available'}
-              redeemUrl={`${REDEEM_BASE_URL}?token=${encodeURIComponent(code.token)}`}
+              index={redeemedCount}
+              token={primaryCode.token}
+              status="available"
+              redeemUrl={`${REDEEM_BASE_URL}?token=${encodeURIComponent(primaryCode.token)}`}
             />
-          ))}
+          )}
+
+          {!loading && !primaryCode && (
+            <p className="claim-empty">
+              There are no vouchers available for this unit yet.
+            </p>
+          )}
+
+          {primaryCode && redeemedCount >= TOTAL_DRINKS && (
+            <p className="claim-all-used">
+              All your drinks have been redeemed. Thank you!
+            </p>
+          )}
         </div>
+
+        <p className="claim-footnote">Keep this page open when you approach the bar.</p>
       </div>
     </div>
   );

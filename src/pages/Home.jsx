@@ -19,8 +19,6 @@ function Home() {
 
   return (
     <div className="page page-home">
-      <span className="floating-chip chip-1">Exclusive resident offer</span>
-      <span className="floating-chip chip-2">Four complimentary drinks</span>
       <div className="home-logo-hero">
         <img src="/logo.png" alt="PRE Group" className="home-logo-hero-image" />
         <span className="home-logo-glow" />

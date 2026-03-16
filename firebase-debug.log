@@ -1,0 +1,110 @@
+[debug] [2026-03-16T18:57:25.108Z] ----------------------------------------------------------------------
+[debug] [2026-03-16T18:57:25.109Z] Command:       /Users/hady/.nvm/versions/node/v20.20.0/bin/node /Users/hady/.nvm/versions/node/v20.20.0/bin/firebase deploy --only hosting
+[debug] [2026-03-16T18:57:25.109Z] CLI Version:   15.8.0
+[debug] [2026-03-16T18:57:25.109Z] Platform:      darwin
+[debug] [2026-03-16T18:57:25.109Z] Node Version:  v20.20.0
+[debug] [2026-03-16T18:57:25.109Z] Time:          Mon Mar 16 2026 20:57:25 GMT+0200 (Eastern European Standard Time)
+[debug] [2026-03-16T18:57:25.109Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-16T18:57:25.745Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-16T18:57:25.745Z] > authorizing via signed-in user (itshadyy@gmail.com)
+[debug] [2026-03-16T18:57:25.745Z] [iam] checking project pre-scanner for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-16T18:57:25.745Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:25.745Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:25.746Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pre-scanner:testIamPermissions [none]
+[debug] [2026-03-16T18:57:25.746Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pre-scanner:testIamPermissions  x-goog-user-project=pre-scanner
+[debug] [2026-03-16T18:57:25.746Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pre-scanner:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-16T18:57:26.898Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pre-scanner:testIamPermissions 200
+[debug] [2026-03-16T18:57:26.898Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pre-scanner:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-16T18:57:26.899Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:26.899Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:26.899Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pre-scanner [none]
+[debug] [2026-03-16T18:57:27.524Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pre-scanner 200
+[debug] [2026-03-16T18:57:27.524Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pre-scanner {"projectId":"pre-scanner","projectNumber":"38158238135","displayName":"pre-scanner","name":"projects/pre-scanner","resources":{"hostingSite":"pre-scanner"},"state":"ACTIVE","etag":"1_a5f6ff14-b1e6-4e70-a235-4d037d220f43"}
+[info] 
+[info] === Deploying to 'pre-scanner'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-03-16T18:57:27.531Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:27.531Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:27.531Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions [none]
+[debug] [2026-03-16T18:57:27.531Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-03-16T18:57:30.367Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions 200
+[debug] [2026-03-16T18:57:30.367Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions {"name":"projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pre-scanner]: beginning deploy... 
+[info] i  hosting[pre-scanner]: found 13 files in build 
+[debug] [2026-03-16T18:57:30.377Z] [hosting] uploading with 200 concurrency
+[debug] [2026-03-16T18:57:30.578Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:30.578Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:30.579Z] [hosting] hash cache [YnVpbGQ] stored for 13 files
+[debug] [2026-03-16T18:57:30.579Z] [hosting][hash queue][FINAL] {"max":198,"min":4,"avg":21.53846153846154,"active":0,"complete":13,"success":13,"errored":0,"retried":0,"total":13,"elapsed":201}
+[debug] [2026-03-16T18:57:30.579Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b:populateFiles [none]
+[debug] [2026-03-16T18:57:30.579Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b:populateFiles {"files":{"/robots.txt":"391d14b3c2f8c9143a27a28c7399585142228d4d1bdbe2c87ac946de411fa9a2","/manifest.json":"4e1d3adad9ce7e17c0d13fac197f1c27091906f4ecf3909c9f51247bff345118","/asset-manifest.json":"2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e","/logo512.png":"2356e0b814e58a349935c8de17226873d615d088a867d591fef48a64c80c9a2f","/logo192.png":"f66564670b5bfe49f3f04a5b63107bae60f4a7736f1d3b83aa0115f7acf45150","/static/js/main.513b7924.js.LICENSE.txt":"960c40f1d167d36492b662c51e2319688e1e9874da9401f8eaf425dd460f0536","/favicon.ico":"1463be9bedc82e16f9364eec7a1f5152cbe56229401381eed65c1496cb884407","/index.html":"4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f","/static/css/main.40614f1a.css":"35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec","/static/css/main.40614f1a.css.map":"3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1","/logo.png":"cae80128fd374fa950b10fd89d1e766651ea23591b238ba00db6be08971ebad8","/static/js/main.513b7924.js":"f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d","/static/js/main.513b7924.js.map":"712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3"}}
+[debug] [2026-03-16T18:57:32.005Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b:populateFiles 200
+[debug] [2026-03-16T18:57:32.005Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b:populateFiles {"uploadRequiredHashes":["35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec","3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1","f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d","4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f","2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e","712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files"}
+[debug] [2026-03-16T18:57:32.005Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.005Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.006Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.007Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.007Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:32.007Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec [none]
+[debug] [2026-03-16T18:57:32.007Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec [stream]
+[debug] [2026-03-16T18:57:32.008Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1 [none]
+[debug] [2026-03-16T18:57:32.008Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1 [stream]
+[debug] [2026-03-16T18:57:32.009Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d [none]
+[debug] [2026-03-16T18:57:32.009Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d [stream]
+[debug] [2026-03-16T18:57:32.010Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f [none]
+[debug] [2026-03-16T18:57:32.010Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f [stream]
+[debug] [2026-03-16T18:57:32.011Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e [none]
+[debug] [2026-03-16T18:57:32.011Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e [stream]
+[debug] [2026-03-16T18:57:32.011Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3 [none]
+[debug] [2026-03-16T18:57:32.011Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3 [stream]
+[debug] [2026-03-16T18:57:32.012Z] [hosting][populate queue][FINAL] {"max":1429,"min":1429,"avg":1429,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1434}
+[debug] [2026-03-16T18:57:32.012Z] [hosting] uploads queued: 6
+[debug] [2026-03-16T18:57:33.798Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec 200
+[debug] [2026-03-16T18:57:33.798Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/35de64152ae779c69858df95b57f2df24debf0cac5b15372e6f40ecb227d22ec [stream]
+[debug] [2026-03-16T18:57:33.960Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1 200
+[debug] [2026-03-16T18:57:33.960Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/3ef77d3eefd508228ea98df88ff80acc7bc9b4e3fb395d03fecce0ef33ab59a1 [stream]
+[debug] [2026-03-16T18:57:33.994Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e 200
+[debug] [2026-03-16T18:57:33.994Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/2e9aac3011f052ace87521458cb6defbb0f5fadee7c7387a3d296805dfc5a69e [stream]
+[debug] [2026-03-16T18:57:34.130Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f 200
+[debug] [2026-03-16T18:57:34.130Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/4c7531e4dd5ef719b8a0fd7dca469d87c099b232e02f25d505ff2414e231f45f [stream]
+[debug] [2026-03-16T18:57:34.294Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d 200
+[debug] [2026-03-16T18:57:34.294Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/f29f7ec96cf66c66c6b64628e5373a7b5c8707dc6632dccb634f7b5a0b8e7d2d [stream]
+[debug] [2026-03-16T18:57:35.169Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3 200
+[debug] [2026-03-16T18:57:35.169Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pre-scanner/versions/ebef6bfaa5418a0b/files/712db39ce046099fe43160b5dd78d042aa12f96786ace0d0c1da361c4ed23ec3 [stream]
+[debug] [2026-03-16T18:57:35.169Z] [hosting][upload queue][FINAL] {"max":3163,"min":1793,"avg":2218.5,"active":0,"complete":6,"success":6,"errored":0,"retried":0,"total":6,"elapsed":3164}
+[info] ✔  hosting[pre-scanner]: file upload complete 
+[debug] [2026-03-16T18:57:35.170Z] [hosting] deploy completed after 4801ms
+[debug] [2026-03-16T18:57:35.170Z] [
+  {
+    "config": {
+      "site": "pre-scanner",
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    "version": "projects/38158238135/sites/pre-scanner/versions/ebef6bfaa5418a0b"
+  }
+]
+[info] i  hosting[pre-scanner]: finalizing version... 
+[debug] [2026-03-16T18:57:35.171Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:35.171Z] Checked if tokens are valid: true, expires at: 1773690537051
+[debug] [2026-03-16T18:57:35.171Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions/ebef6bfaa5418a0b updateMask=status%2Cconfig
+[debug] [2026-03-16T18:57:35.171Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pre-scanner/versions/ebef6bfaa5418a0b {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}

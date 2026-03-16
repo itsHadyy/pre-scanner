@@ -5,10 +5,10 @@ service cloud.firestore {
       allow read: if true;
 
       // Allow creating new QR codes from the public app,
-      // but only with a safe initial shape (one use, active).
+      // but only with a safe initial shape (multi-use, active).
       allow create: if request.auth == null
         && request.resource.data.uses == 0
-        && request.resource.data.maxUses == 1
+        && request.resource.data.maxUses == 4
         && request.resource.data.status == 'active'
         && request.resource.data.token is string
         && request.resource.data.unitNumber is string;

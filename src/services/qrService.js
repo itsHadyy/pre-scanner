@@ -8,6 +8,7 @@ import {
   getDocs,
   addDoc,
   serverTimestamp,
+  getDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -74,5 +75,29 @@ export async function redeemQrCode(token, deviceId = 'unknown-device') {
   });
 
   return { ok, message: resultMessage };
+}
+
+export async function getQrCodeStatus(token) {
+  const colRef = collection(db, QR_CODES_COLLECTION);
+  const q = query(colRef, where('token', '==', token));
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+    return null;
+  }
+
+  const docSnap = snapshot.docs[0];
+  const data = docSnap.data() || {};
+
+  let unit = null;
+  if (data.unitNumber) {
+    const unitRef = doc(db, 'units', data.unitNumber);
+    const unitSnap = await getDoc(unitRef);
+    if (unitSnap.exists()) {
+      unit = { id: unitSnap.id, ...unitSnap.data() };
+    }
+  }
+
+  return { id: docSnap.id, ...data, unit };
 }
 

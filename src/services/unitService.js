@@ -95,30 +95,28 @@ export async function validateAndClaimUnit(unitNumber) {
     return { unitNumber: realUnitNumber, qrCodes, alreadyClaimed: true };
   }
 
-  // Not claimed yet – generate 4 QR codes and mark claimed
-  const qrCodes = [];
+  // Not claimed yet – generate ONE QR code that can be used 4 times
+  const token = generateToken(32);
 
-  for (let i = 0; i < 4; i += 1) {
-    const token = generateToken(32);
+  const qrDoc = await addDoc(collection(db, QR_CODES_COLLECTION), {
+    token,
+    unitNumber: realUnitNumber,
+    uses: 0,
+    maxUses: 4,
+    status: 'active',
+    createdAt: firestoreTimestamp(),
+  });
 
-    const qrDoc = await addDoc(collection(db, QR_CODES_COLLECTION), {
-      token,
-      unitNumber: realUnitNumber,
-      uses: 0,
-      maxUses: 1,
-      status: 'active',
-      createdAt: firestoreTimestamp(),
-    });
-
-    qrCodes.push({
+  const qrCodes = [
+    {
       id: qrDoc.id,
       token,
       unitNumber: realUnitNumber,
       uses: 0,
-      maxUses: 1,
+      maxUses: 4,
       status: 'active',
-    });
-  }
+    },
+  ];
 
   await updateDoc(unitRef, { claimed: true });
 

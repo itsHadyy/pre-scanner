@@ -68,6 +68,47 @@
   animation: msg-pop 0.3s ease-out;
 }
 
+.scanner-redeem-button {
+  margin-top: 16px;
+}
+
+.scanner-usage-text {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(35, 31, 32, 0.7);
+}
+
+.scanner-unit-card {
+  margin-top: 18px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.12);
+  text-align: left;
+}
+
+.scanner-unit-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+.scanner-unit-label {
+  font-weight: 600;
+  color: rgba(35, 31, 32, 0.6);
+}
+
+.scanner-unit-value {
+  font-weight: 600;
+  color: #231f20;
+}
+
 /* ── Tablet / Desktop ──────────────────────────────── */
 
 @media (min-width: 640px) {

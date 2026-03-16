@@ -22,32 +22,9 @@
       "source": "functions"
     }
   ],
-  "apphosting": [
-    {
-      "backendId": "my-web-app",
-      "rootDir": "/",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "functions"
-      ]
-    },
-    {
-      "backendId": "pre-scanner",
-      "rootDir": "/",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "functions"
-      ]
-    }
-  ],
   "hosting": {
-    "public": "public",
+    "site": "pre-scanner",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
