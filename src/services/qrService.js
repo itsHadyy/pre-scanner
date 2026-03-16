@@ -117,13 +117,23 @@ export async function getQrCodeStatus(token) {
   const data = docSnap.data() || {};
 
   let unit = null;
-  const unitDocId = data.buildingUnit || data.unitNumber;
-  if (unitDocId) {
-    const unitRef = doc(db, 'units', unitDocId);
-    const unitSnap = await getDoc(unitRef);
-    if (unitSnap.exists()) {
-      unit = { id: unitSnap.id, ...unitSnap.data() };
+  try {
+    const unitsCol = collection(db, 'units');
+    let uq;
+    if (data.buildingUnit) {
+      uq = query(unitsCol, where('buildingUnit', '==', data.buildingUnit));
+    } else if (data.unitNumber) {
+      uq = query(unitsCol, where('unitNumber', '==', data.unitNumber));
     }
+    if (uq) {
+      const uSnap = await getDocs(uq);
+      if (!uSnap.empty) {
+        const uDoc = uSnap.docs[0];
+        unit = { id: uDoc.id, ...uDoc.data() };
+      }
+    }
+  } catch (e) {
+    // best-effort enrichment; ignore failures
   }
 
   return { id: docSnap.id, ...data, unit };

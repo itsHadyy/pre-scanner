@@ -34,6 +34,11 @@ function LaunchScreen() {
             <div className="launch-progress-bar" />
           </div>
         </div>
+
+        <div className="launch-powered">
+          <p className="launch-powered-label">Powered by</p>
+          <img src="/fut-app.png" alt="FutApp" className="launch-powered-logo" />
+        </div>
       </div>
     </div>
   );

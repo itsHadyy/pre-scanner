@@ -80,7 +80,7 @@ function QRScanner() {
     );
 
     return () => {
-      scanner.clear().catch(() => {});
+      scanner.clear().catch(() => { });
     };
   }, []);
 
@@ -134,8 +134,16 @@ function QRScanner() {
     <div className="scanner-card">
       <h1 className="scanner-title">Drink Scanner</h1>
       <p className="scanner-subtitle">
-        Scan the customer&apos;s QR code. Confirm, then tap Redeem.
+        Scan the customer&apos;s QR code. Confirm details, then tap Redeem.
       </p>
+      <div className="scanner-permission-hint">
+        <span className="scanner-permission-dot" />
+        If prompted by your browser, choose
+        {' '}
+        <strong>Allow</strong>
+        {' '}
+        to let PRE Scanner use the camera.
+      </div>
       <div id="qr-reader" className="qr-reader-container" />
       <div className={`scanner-message scanner-message-${status}`}>
         {message || 'Ready to scan.'}
