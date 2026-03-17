@@ -1,5 +1,7 @@
-// One‑time script to import stone_units.xlsx into Firestore "units" collection.
-// Run from this folder with: node index.js
+// One‑time script to import units from an Excel file into Firestore "units" collection.
+// Run from this folder:
+//   node index.js                  → imports stone_units.xlsx (default)
+//   node index.js stone_park.xlsx  → imports stone_park.xlsx (place file in pre-scanner root, or use full path)
 
 const path = require('path');
 const admin = require('firebase-admin');
@@ -17,8 +19,11 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// Path to the Excel file in the project root
-const workbookPath = path.join(__dirname, '..', 'stone_units.xlsx');
+// Optional: pass filename as first arg (e.g. stone_park.xlsx). Default: stone_units.xlsx
+const fileName = process.argv[2] || 'stone_units.xlsx';
+const workbookPath = path.isAbsolute(fileName)
+  ? fileName
+  : path.join(__dirname, '..', fileName);
 
 function readRows() {
   const workbook = xlsx.readFile(workbookPath);
@@ -30,7 +35,7 @@ function readRows() {
 
 async function run() {
   const rows = readRows();
-  console.log(`Found ${rows.length} rows in stone_units.xlsx`);
+  console.log(`Found ${rows.length} rows in ${path.basename(workbookPath)}`);
 
   const batchSize = 400;
   let batch = db.batch();
@@ -39,21 +44,31 @@ async function run() {
   for (let i = 0; i < rows.length; i += 1) {
     const row = rows[i];
 
-    // Map to your actual Excel headers.
-    // Example row logged previously:
-    // { '#': 3826, 'Building Num': '66*', 'Unit Num': 7, Floor: 'TF' }
-    const unit = String(row['Unit Num'] || row['Unit'] || row.unit || '').trim();
-    const building = String(row['Building Num'] || row['Building'] || row.building || '').trim();
-    const floor = String(row.Floor || row['Floor'] || row.floor || '').trim();
+    // Support two formats:
+    // 1) Single "units" column (e.g. stone_park.xlsx): { units: 'B155H' }
+    // 2) Separate columns (e.g. stone_units.xlsx): Building Num, Unit Num, Floor
+    const singleUnit = String(row.units || row.Units || '').trim();
+    let unit;
+    let building;
+    let floor;
+    let buildingUnit;
 
-    if (!unit || !building) {
-      // Skip incomplete lines but keep going.
-      // eslint-disable-next-line no-console
-      console.warn(`Skipping row ${i + 1} – missing unit or building`, row);
-      continue;
+    if (singleUnit) {
+      buildingUnit = singleUnit;
+      unit = singleUnit;
+      building = singleUnit;
+      floor = '';
+    } else {
+      unit = String(row['Unit Num'] || row['Unit'] || row.unit || '').trim();
+      building = String(row['Building Num'] || row['Building'] || row.building || '').trim();
+      floor = String(row.Floor || row['Floor'] || row.floor || '').trim();
+      if (!unit || !building) {
+        // eslint-disable-next-line no-console
+        console.warn(`Skipping row ${i + 1} – missing unit or building`, row);
+        continue;
+      }
+      buildingUnit = `${building}-${unit}`;
     }
-
-    const buildingUnit = `${building}-${unit}`;
 
     // Use BUILDING-UNIT as the document ID so each unit is uniquely keyed.
     const docRef = db.collection('units').doc(buildingUnit);
